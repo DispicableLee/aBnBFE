@@ -6,14 +6,17 @@ import PropertyCard from "../components/PropertyCard";
 import axios from "axios";
 
 export default function Home({propertiesResponse}) {
-  const { user, error, isLoading } = useUser();
+  // const { user, error, isLoading } = useUser();
   console.log(propertiesResponse)
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>{error.message}</div>;
-
+  const property = propertiesResponse[0];
+  const propertyList = propertiesResponse.data.map(
+    p=>{return(
+      <PropertyCard property={property}/>
+    )}
+  )
   return (
     <div>
-      <h1>hello</h1>
+      <PropertyCard property={property}/>
     </div>
   );
 }
