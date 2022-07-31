@@ -18,8 +18,6 @@ const PropertyCard = (props) => {
     const [rating, setRating] = useState(0);
     const [username, setUsername] = useState(null)
   useEffect(() => {
-    console.log("this is the property card");
-    console.log(props.property);
     const getReview = async()=>{
         const revReq = await axios.get(`http://localhost:5002/api/v1/airbnb/search/all/reviews/${props.property._id}`)
         console.log(revReq.data);
