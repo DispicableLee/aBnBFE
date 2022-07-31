@@ -9,14 +9,14 @@ export default function Home({propertiesResponse}) {
   // const { user, error, isLoading } = useUser();
   console.log(propertiesResponse)
   const property = propertiesResponse[0];
-  const propertyList = propertiesResponse.data.map(
+  const propertyList = propertiesResponse.map(
     p=>{return(
-      <PropertyCard property={property}/>
+      <PropertyCard property={p}/>
     )}
   )
   return (
     <div>
-      <PropertyCard property={property}/>
+      {propertyList}
     </div>
   );
 }
