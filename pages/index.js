@@ -22,7 +22,8 @@ export default function Home({propertiesResponse}) {
 }
 
 export async function getServerSideProps() {
-  const properties = await axios.get("http://localhost:5002/api/v1/airbnb/search/all/listings")
+  var endpointUrl = "http://localhost:5002/api/v1/airbnb/search/all/listings";
+  const properties = await axios.get(endpointUrl);
   const propertiesResponse = properties.data;
 
   return {
