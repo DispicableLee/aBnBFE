@@ -14,7 +14,7 @@ export default function Home({propertiesResponse}) {
       <PropertyCard property={p}/>
     )}
   )
-  return 
+  return (
     <div>
       {propertyList}
     </div>
