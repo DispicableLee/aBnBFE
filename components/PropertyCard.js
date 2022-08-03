@@ -17,6 +17,8 @@ const PropertyCard = (props) => {
     const [review, setReview] = useState({});
     const [rating, setRating] = useState(0);
     const [username, setUsername] = useState(null)
+    const { user, error, isLoading } = useUser();
+    const router = useRouter();
   useEffect(() => {
     const getReview = async()=>{
         const revReq = await axios.get(`http://localhost:5002/api/v1/airbnb/search/all/reviews/${props.property._id}`)
@@ -29,7 +31,7 @@ const PropertyCard = (props) => {
                 ratingJson = revReq.data[i];
             }
         }
-//=========================================================================================================================
+
         console.log(ratingTotal);
         console.log(ratingJson);
         setReview(ratingJson);
@@ -38,16 +40,25 @@ const PropertyCard = (props) => {
         const userResponse = await axios.get(`http://localhost:5002/api/v1/airbnb/search/user/${userid}`)
         console.log(userResponse.data.username)
         setUsername(userResponse.data.username)
-//=========================================================================================================================
+
     }
     getReview();
   }, []);
+  //====================================================================================================================
+  const checkAuthentication = ()=>{
+    if(user){
+      router.push("/listing")
+    }else{
+      router.push("/api/auth/login")
+    }
+  }
+  //======================================================================================================================
   return (
     <Box pl={5} pt={5}>
-      <Card sx={{ maxWidth: 475 }}>
-        <CardActionArea>
+      <Card sx={{ maxWidth: 550 }}>
+        <CardActionArea onClick={()=>{checkAuthentication()}}>
           <CardMedia>
-            <img src={props.property.images[0]} width="475px" height="350px" />
+            <img src={props.property.images[0]} width="550px" height="300px" />
           </CardMedia>
           <Rating
                         precision={0.5}
