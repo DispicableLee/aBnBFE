@@ -15,6 +15,7 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
+import {useRouter} from 'next/router';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -62,6 +63,11 @@ export default function NavBar() {
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+  const router = useRouter()
+  const routeToHome =() => {
+    router.push("/")
+  }
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -168,6 +174,7 @@ export default function NavBar() {
             <MenuIcon />
           </IconButton>
           <Typography
+            onClick = {() => routeToHome()}
             variant="h6"
             noWrap
             component="div"

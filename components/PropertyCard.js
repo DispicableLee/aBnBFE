@@ -47,6 +47,8 @@ const PropertyCard = (props) => {
   //====================================================================================================================
   const checkAuthentication = ()=>{
     if(user){
+      var propertyId = String(props.property._id);
+      localStorage.setItem("propertyId", propertyId)
       router.push("/listing")
     }else{
       router.push("/api/auth/login")
