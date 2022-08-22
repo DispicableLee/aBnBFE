@@ -10,7 +10,6 @@ import Grid from '@mui/material/Grid';
 
 
 export default function Home({propertiesResponse}) {
-  // const { user, error, isLoading } = useUser();
   console.log(propertiesResponse)
   const property = propertiesResponse[0];
   
@@ -28,6 +27,7 @@ export default function Home({propertiesResponse}) {
     )}
   )
   return (
+    
     <div>
       <NavBar/>
       <div style={{marginLeft: '10px'}}>
