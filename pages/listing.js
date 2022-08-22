@@ -17,6 +17,7 @@ import LocalBarIcon from "@mui/icons-material/LocalBar";
 import SailingIcon from "@mui/icons-material/Sailing";
 import Grid from '@mui/material/Unstable_Grid2';
 import Paper from "@mui/material/Paper";
+import SimpleDialog from "../components/SimpleDialog";
 
 export default function Listing(property) {
   // const { user, error, isLoading } = useUser();
@@ -30,6 +31,8 @@ export default function Listing(property) {
   const [reviews, setReviews] = useState([]);
   const [revCount, setRevCount] = useState(0);
   const [ratingScore, setRatingScore] = useState(0);
+  const [reviewsList, setReviewsList] = useState([])
+  const [review, setReview] = useState(null)
   //================================================================================================================
   useEffect(() => {
     var propertyId = localStorage.getItem("propertyId");
@@ -64,10 +67,17 @@ export default function Listing(property) {
         `http://localhost:5002/api/v1/airbnb/search/all/reviews/${propertyId}`
       );
       const revCountData = reviewCounts.data;
+      console.log(revCountData)
+      setReviewsList(revCountData)
+      setReview(revCountData[0])
       const revNumTotal = 0;
+      var num = 0;
       for (var i = 0; i < revCountData.length; i++) {
-        var num = revCountData[i].rating;
-        revNumTotal = revNumTotal + num;
+        if(revCountData[i]){
+          num = revCountData[i].rating;
+          console.log("this is the rating of this review",revCountData[i].rating) 
+          revNumTotal = revNumTotal + num;
+        }
       }
       const newRatingScore = revNumTotal / revCountData.length;
       setRatingScore(newRatingScore);
@@ -77,6 +87,28 @@ export default function Listing(property) {
   }, []);
   //===========================================================================================================
   console.log(revCount);
+
+//====================================================== do mapping logic here =====================================
+const renderedReviewList = reviewsList.map(
+  r=>{
+    return (
+      <ReviewComponent review = {r}/>
+    )
+  }
+)
+
+const reRenderedReviewList = renderedReviewList.map(
+  p=>{
+    return (
+      <Grid item xs={4} sm={4} md={4}>
+      {p}
+    </Grid>
+    )
+  }
+)
+//==================================================================================================================
+
+
   return (
     <div>
       <NavBar />
@@ -99,17 +131,10 @@ export default function Listing(property) {
       </Card>
       <br />
       <Typography variant="h5">
-        <strong>
-          {listingName} hosted by {owner}
-        </strong>
+        <strong>{listingName}</strong> hosted by {owner}
+        
       </Typography>
       <br />
-      <div>
-        <StarIcon /> <Fragment>&nbsp;&nbsp;&nbsp;&nbsp;</Fragment>
-        <strong>{ratingScore} </strong>
-        {revCount} Reviews
-        <Fragment>&nbsp;&nbsp;&nbsp;&nbsp;</Fragment>
-      </div>
       <br />
       <Divider />
       <PetsIcon /> <Fragment>&nbsp;&nbsp;&nbsp;&nbsp;</Fragment>
@@ -131,6 +156,25 @@ export default function Listing(property) {
           </Grid>
         </Grid>
       </Box>
+      <br/>
+      <div>
+        <StarIcon /> <Fragment>&nbsp;&nbsp;&nbsp;&nbsp;</Fragment>
+        <strong>{ratingScore} </strong>
+        {revCount} Reviews
+        <Fragment>&nbsp;&nbsp;&nbsp;&nbsp;</Fragment>
+      </div>
+      <Grid container spacing={0.75}>
+            {reRenderedReviewList}
+      </Grid>
+{/*=============================== AllReview Component ================================================== */}
+<SimpleDialog
+  allReviews = {reviewsList}
+/>
+
+
+
+
+
       <a href="/api/auth/logout">Logout</a>
     </div>
   );

@@ -13,11 +13,13 @@ export default function Home({propertiesResponse}) {
   // const { user, error, isLoading } = useUser();
   console.log(propertiesResponse)
   const property = propertiesResponse[0];
+  
   const propertyList = propertiesResponse.map(
     p=>{return(
       <PropertyCard property={p}/>
     )}
   )
+
   const renderedPropertyList = propertyList.map(
     card=>{return(
       <Grid item xs={4} sm={3} md={2}>
